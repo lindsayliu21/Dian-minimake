@@ -2,7 +2,7 @@
 #include"args.h"
 #include<stdio.h>
 #include<string.h>
-//辅助函数：去除首尾空白字符
+//辅助函数: 去除首尾空白字符
 static void trim_whitespace(char *str){
     char *end;
     //空字符串处理
@@ -53,7 +53,7 @@ while(fgets(line,sizeof(line),infile)){
    if(line[0]=='\0'){continue;}
    printf("Porocessed line: [%s]\n",line);
    if (verbose_mode) {
-    fprintf(outfile, "%s\n", line);
+     fprintf(outfile, "%s\n", line);
 }
 }
 fclose(infile);

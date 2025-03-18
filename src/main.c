@@ -2,5 +2,5 @@
 #include<string.h>
 int main(){
     printf("Hello makefile!\n");
-    return 0;
+     return 0;
 }
