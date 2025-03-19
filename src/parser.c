@@ -22,8 +22,8 @@ while(token!=NULL&&rule->dep_count< MAX_DEPS){
 }
 }
 //检查重复目标
-void check_duplicte_target(Rule rules[],int rule_count,const char *target){
-    for(int i;i<rule_count;i++){
+void check_duplicate_target(Rule rules[],int rule_count,const char *target){
+    for(int i=0;i<rule_count;i++){
         if(strcmp(rules[i].target,target)==0){
             fprintf(stderr,"Error: Duplicate target definition '%s'\n",target);
             return;
@@ -32,8 +32,8 @@ void check_duplicte_target(Rule rules[],int rule_count,const char *target){
 }
 //检查是否以.c结尾
 int ends_with_dot_c(const char *str){
-    const char *dot=strstr(str,'.');
-    return (dot!=NULL&&*(dot+1)=='c'&&(dot+2)=='\0');
+    const char *dot=strstr(str,".");
+    return (dot!=NULL&&*(dot+1)=='c'&&*(dot+2)=='\0');
 }
 //检查依赖是否存在 
 //1）先检查是否是存在的文件 2）再检查是否是其他规则的目标 3）若两者都不满足，报告错误

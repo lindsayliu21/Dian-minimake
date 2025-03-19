@@ -1,18 +1,13 @@
-
-    #include "args.h"
-    #include "preprocess.h"
-    #include "syntax_check.h"
-    #include "parser.h"
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <sys/stat.h>
-    #include <unistd.h>
-    #include <time.h>
-    
-    // 全局变量声明（在args.h中定义）
-    extern int verbose_mode;
-    
+#include "args.h"
+#include "preprocess.h"
+ #include "syntax_check.h"
+ #include "parser.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h> 
+#include <time.h>
     // 检查文件是否存在
     int file_exists(const char *filename) {
         struct stat st;

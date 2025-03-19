@@ -4,7 +4,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
-int verbose_mode=0;
+extern int verbose_mode;
  //打印--help
 void print_help();
 //命令⾏参数解析

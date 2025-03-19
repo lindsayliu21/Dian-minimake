@@ -1,5 +1,4 @@
 #include"args.h"
-
  //打印 --help
 void print_help(){
     printf("Usage:minimake[target][options]\n");
@@ -8,13 +7,14 @@ void print_help(){
     }
 //命令⾏参数解析      
 void parse_args(int argc,char *argv[]){
+ 
 if(argc==1){
     printf("Error: No target specificied\n");
     exit(1);
 }
 if(strcmp(argv[1],"--help")==0){
     print_help();
-    return 0;
+    return ;
 }
 else if(strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0){
     verbose_mode = 1;

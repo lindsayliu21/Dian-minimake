@@ -3,6 +3,7 @@
 #define PARSER_H
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 #define MAX_TARGETS 10
 #define MAX_DEPS 10
 #define MAX_COMMAND_LEN 256

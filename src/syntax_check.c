@@ -2,7 +2,7 @@
 void check_syntax(const char *line,int line_num){
     //检查目标行是否有冒号
     if(!in_rule){
-        char *colon=strstr(line,':');
+        char *colon=strstr(line,":");
         if(colon==NULL){
         if(line[0]=='\t') 
         printf("Line%d: Command found before rule\n",line_num);
