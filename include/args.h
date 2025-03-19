@@ -1,5 +1,9 @@
-#ifndef AGRS_H
-#define ARGS_H;
+//命令行解析
+#ifndef ARGS_H
+#define ARGS_H
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 int verbose_mode=0;
  //打印--help
 void print_help();

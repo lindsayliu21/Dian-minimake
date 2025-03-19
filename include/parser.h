@@ -1,6 +1,8 @@
+//规则解析与存储
 #ifndef PARSER_H
 #define PARSER_H
-
+#include<stdio.h>
+#include<string.h>
 #define MAX_TARGETS 10
 #define MAX_DEPS 10
 #define MAX_COMMAND_LEN 256

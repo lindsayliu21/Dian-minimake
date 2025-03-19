@@ -1,6 +1,5 @@
 #include"args.h"
-#include<stdio.h>
-#include<string.h>
+
  //打印 --help
 void print_help(){
     printf("Usage:minimake[target][options]\n");

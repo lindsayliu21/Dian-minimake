@@ -1,5 +1,4 @@
-#include<stdio.h>
-#include<string.h>
+
 #include"parser.h"
 //解析单行规则
 void parse_rule(const char *line, Rule *rule){

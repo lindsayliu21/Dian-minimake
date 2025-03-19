@@ -1,3 +1,4 @@
+//静态语法检查
 #ifndef SYNTAX_CHECK_H
 #define SYNTAX_CHECK_H
 #include<stdio.h>

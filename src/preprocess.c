@@ -1,7 +1,7 @@
 #include"preprocess.h"
 #include"args.h"
-#include<stdio.h>
-#include<string.h>
+#include<stdlib.h>
+
 //辅助函数: 去除首尾空白字符
 static void trim_whitespace(char *str){
     char *end;
@@ -10,7 +10,7 @@ static void trim_whitespace(char *str){
         return;
     }
     //去除前导空白
-    while(issspace((unsigned char)*str))str++;
+    while(isspace((unsigned char)*str))str++;
     //去除尾部空白
     end=str+strlen(str)-1;
     while(end>str&&isspace((unsigned char)*end)) end--;
@@ -19,7 +19,7 @@ static void trim_whitespace(char *str){
 }
 //辅助函数：去除注释和行尾空格
 static void remove_comments_and_trims(char *line){
-    char *comment_start=strchr(line,"#");
+    char *comment_start=strchr(line,'#');
     if(comment_start){
         *comment_start='\0';
     }
