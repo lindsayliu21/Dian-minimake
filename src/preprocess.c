@@ -26,9 +26,9 @@ static void remove_comments_and_trims(char *line){
     trim_whitespace(line);
 }
 //预处理与⽂件读取
-void preprocess_makefile(const char *filename){
-    int verbose_mode=0;
-FILE *infile=fopen(filename,"r");
+void preprocess_makefile(const char *input_file, const char *output_file, int verbose_mode){
+    verbose_mode=0;
+FILE *infile=fopen(input_file,"r");
 if(!infile){
     perror("Error: Failed to open Makefile\n");
     exit(1);
@@ -58,7 +58,7 @@ while(fgets(line,sizeof(line),infile)){
 }
 }
 fclose(infile);
-    if (verbose_mode) {
+    if (outfile) {
         fclose(outfile);
     }
 }

@@ -14,7 +14,7 @@ typedef struct Rule{
     char command[MAX_COMMAND_LEN];//编译命令
 } Rule;
 //解析单行规则
-void parse_rule(const char *line,Rule *rule);
+int parse_rule(const char *line,Rule *rule);
 //检查重复目标
 void check_duplicate_target(Rule rules[],int rule_count,const char*target);
 //检查是否以.c结尾

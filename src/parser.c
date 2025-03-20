@@ -2,14 +2,20 @@
 #include"parser.h"
 
 //解析单行规则
-void parse_rule(const char *line, Rule *rule){
+int parse_rule(const char *line, Rule *rule){
 char buffer[256];
 strcpy(buffer,line);
+// 检查是否为命令（以Tab开头）
+if (buffer[0] == '\t') {
+    strncpy(rule->command, buffer + 1, MAX_COMMAND_LEN);
+    return 1;  // 表示当前行是规则命令行
+}
+//当前是规则目标行
 //检查是否有冒号分隔符
 char *colon=strchr(buffer,':');
 if(colon==NULL){
     fprintf(stderr,"错误：目标行缺少冒号！\n");
-    return ;
+    return -1;
 }
 *colon='\0';//分割字符
 strncpy(rule->target,buffer, sizeof(rule->target) - 1);
@@ -23,9 +29,7 @@ while(token!=NULL&&rule->dep_count< MAX_DEPS){
     rule->dep_count++;
     token=strtok(NULL," ");
 }
-// 假设命令在新的一行，需要进一步处理
-    // 这里简单假设命令为空
-    rule->command[0] = '\0';
+return 0;//当前是规则行
 }
 //检查重复目标
 void check_duplicate_target(Rule rules[],int rule_count,const char *target){
