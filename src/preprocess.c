@@ -1,5 +1,6 @@
 #include"preprocess.h"
 #include"args.h"
+#include<libgen.h>
 
 
 //辅助函数: 去除首尾空白字符
@@ -33,6 +34,8 @@ if(!infile){
     perror("Error: Failed to open Makefile\n");
     exit(1);
 }
+char output_path[256];
+snprintf(output_path,sizeof(output_path),"%s%s",dirname(strdup(input_file)),output_file);
 FILE *outfile = NULL;
     if (verbose_mode) {
         outfile = fopen("Minimake_cleared.mk", "w");

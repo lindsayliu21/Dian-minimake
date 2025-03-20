@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <unistd.h> 
 #include <time.h>
+#include<libgen.h>
 int verbose_code=0;
 // 读取并解析Makefile
 /*Rule *parse_makefile(const char *filename, int *rule_count) {
@@ -69,13 +70,75 @@ int verbose_code=0;
     int main(int argc, char *argv[]) {
 
         // 1. 解析命令行参数
-        parse_args(argc, argv);
-        const char *target = argv[1];
+        char *makefile_path = "Makefile";  // 默认在当前目录查找
+    char *target = NULL;
+     // 优先处理 --help
+     for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--help") == 0) {
+            print_help();
+            exit(0);
+        }
+    }
+     // 解析其他参数
+     for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--verbose") == 0) {
+            verbose_code = 1;
+        } else if (strcmp(argv[i], "-f") == 0) {  // 支持 -f 指定 Makefile 路径
+            if (i + 1 < argc) {
+                makefile_path = argv[++i];
+            } else {
+                fprintf(stderr, "错误: -f 需要指定 Makefile 路径\n");
+                exit(1);
+            }
+        } else if (argv[i][0] != '-') {
+            target = argv[i];
+        } else {
+            fprintf(stderr, "错误: 未知选项 '%s'\n", argv[i]);
+            exit(1);
+        }
+    }
+    if (!target) {
+        fprintf(stderr, "错误: 未指定构建目标\n");
+        exit(1);
+    }
+    //  步骤 2: 切换到 Makefile 所在目录 
+    char makefile_dir[256];
+    strncpy(makefile_dir, makefile_path, sizeof(makefile_dir));
+    makefile_dir[sizeof(makefile_dir) - 1] = '\0';  // 防止溢出
+
+    // 提取目录路径（例如将 "test/Makefile" 转为 "test"）
+    char *dir = dirname(makefile_dir);
+
+    // 切换工作目录
+    if (chdir(dir) != 0) {
+        perror("错误: 无法切换目录\n");
+        exit(1);
+    }
+    /*for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
+            makefile_path = argv[i + 1];  // 指定 Makefile 路径
+            i++;
+        } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--verbose") == 0) {
+            verbose_code = 1;
+        } else if (strcmp(argv[i], "--help") == 0) {
+            print_help();
+            exit(0);
+        } else {
+            target = argv[i];
+        }
+    }
+
+    if (!target) {
+        printf("错误: 未指定构建目标！\n");
+        exit(1);
+    }*/
+   printf("正在构建目标：%s\n",target);
+        target = argv[1];
     
-        // 2. 预处理Makefile
-        preprocess_makefile("Makefile","Minimake_cleared.mk",verbose_code);
+        // 3. 预处理Makefile
+        preprocess_makefile(makefile_path,"Minimake_cleared.mk",verbose_code);
         int rule_count ;
-        // 3. 读取清理后的Makefile并进行语法检查
+        // 4. 读取清理后的Makefile并进行语法检查
         FILE *cleaned_file = fopen("Minimake_cleared.mk", "r");
         if (!cleaned_file) {
             perror("无法打开清理后的Makefile");
@@ -86,7 +149,7 @@ int verbose_code=0;
         int line_num = 0;
         Rule rules[MAX_TARGETS];
        
-        // 4. 逐行解析规则
+        // 5. 逐行解析规则
         while (fgets(line, sizeof(line), cleaned_file)) {
             line_num++;
             line[strcspn(line, "\n")] = '\0'; // 去除换行符
@@ -104,7 +167,7 @@ int verbose_code=0;
         fclose(cleaned_file);
     
     
-        // 5. 检查依赖有效性
+        //6. 检查依赖有效性
         check_dependencies(rules, rule_count);
     
         // 6. 查找用户指定的目标规则

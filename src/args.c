@@ -5,10 +5,11 @@ void print_help(){
     printf("Usage:minimake[target][options]\n");
         printf("Options:\n");
         printf("  --help\tDisplay this help message\n");
+        printf("  -f <文件>  指定Makefile路径（默认：./Makefile)\n");
         printf("  -v, --verbose\tEnable verbose mode\n");
     }
 //命令⾏参数解析      
-void parse_args(int argc,char *argv[]){
+/*void parse_args(int argc,char *argv[]){
 
 if(argc==1){
     printf("Error: No target specificied\n");
@@ -30,4 +31,4 @@ if(argc>2){
     exit(1);//参数过多
 }
 
-}
+}*/
