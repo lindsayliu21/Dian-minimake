@@ -1,5 +1,5 @@
-#include <stdio.h>
-     int main() {
-         printf("Hello, Minimake!\n");
-         return 0;
-     }
+#include "test.h"
+
+int add(int a, int b) {
+    return a + b;
+}

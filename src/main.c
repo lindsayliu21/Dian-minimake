@@ -1,13 +1,14 @@
 #include "args.h"
 #include "preprocess.h"
- #include "syntax_check.h"
- #include "parser.h"
+#include "syntax_check.h"
+#include "parser.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h> 
 #include <time.h>
+
     // 检查文件是否存在
     int file_exists(const char *filename) {
         struct stat st;
@@ -33,6 +34,7 @@
     
     // 主函数
     int main(int argc, char *argv[]) {
+    
         // 1. 解析命令行参数
         parse_args(argc, argv);
         const char *target = argv[1];

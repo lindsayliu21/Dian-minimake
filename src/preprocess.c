@@ -1,6 +1,6 @@
 #include"preprocess.h"
 #include"args.h"
-#include<stdlib.h>
+
 
 //辅助函数: 去除首尾空白字符
 static void trim_whitespace(char *str){
@@ -27,6 +27,7 @@ static void remove_comments_and_trims(char *line){
 }
 //预处理与⽂件读取
 void preprocess_makefile(const char *filename){
+    int verbose_mode=0;
 FILE *infile=fopen(filename,"r");
 if(!infile){
     perror("Error: Failed to open Makefile\n");

@@ -1,5 +1,6 @@
 
 #include"parser.h"
+
 //解析单行规则
 void parse_rule(const char *line, Rule *rule){
 char buffer[256];
@@ -11,22 +12,27 @@ if(colon==NULL){
     return ;
 }
 *colon='\0';//分割字符
-strncpy(rule->target,buffer,32);
+strncpy(rule->target,buffer, sizeof(rule->target) - 1);
+rule->target[sizeof(rule->target) - 1] = '\0';
 char *deps=colon+1;
 rule->dep_count=0;
 char *token=strtok(deps," ");
 while(token!=NULL&&rule->dep_count< MAX_DEPS){
-    strncpy(rule->dependencies[rule->dep_count],token,32);
+    strncpy(rule->dependencies[rule->dep_count],token,sizeof(rule->dependencies[0]) - 1);
+    rule->dependencies[rule->dep_count][sizeof(rule->dependencies[0]) - 1] = '\0';
     rule->dep_count++;
     token=strtok(NULL," ");
 }
+// 假设命令在新的一行，需要进一步处理
+    // 这里简单假设命令为空
+    rule->command[0] = '\0';
 }
 //检查重复目标
 void check_duplicate_target(Rule rules[],int rule_count,const char *target){
     for(int i=0;i<rule_count;i++){
         if(strcmp(rules[i].target,target)==0){
             fprintf(stderr,"Error: Duplicate target definition '%s'\n",target);
-            return;
+          exit(1);
         }
     }
 }

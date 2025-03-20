@@ -1,4 +1,6 @@
 #include"syntax_check.h"
+int in_rule = 0;
+
 void check_syntax(const char *line,int line_num){
     //检查目标行是否有冒号
     if(!in_rule){
