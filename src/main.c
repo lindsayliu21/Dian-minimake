@@ -114,24 +114,7 @@ int verbose_code=0;
         perror("错误: 无法切换目录\n");
         exit(1);
     }
-    /*for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
-            makefile_path = argv[i + 1];  // 指定 Makefile 路径
-            i++;
-        } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--verbose") == 0) {
-            verbose_code = 1;
-        } else if (strcmp(argv[i], "--help") == 0) {
-            print_help();
-            exit(0);
-        } else {
-            target = argv[i];
-        }
-    }
-
-    if (!target) {
-        printf("错误: 未指定构建目标！\n");
-        exit(1);
-    }*/
+    
    printf("正在构建目标：%s\n",target);
         target = argv[1];
     
@@ -169,21 +152,6 @@ int verbose_code=0;
     
         //6. 检查依赖有效性
         check_dependencies(rules, rule_count);
-    
-        // 6. 查找用户指定的目标规则
-        /*Rule *target_rule = NULL;
-        for (int i = 0; i < rule_count; i++) {
-            if (strcmp(rules[i].target, target) == 0) {
-                target_rule = &rules[i];
-                break;
-            }
-        }
-    
-        if (!target_rule) {
-            fprintf(stderr, "错误: 目标 '%s' 未在Makefile中定义\n", target);
-            exit(EXIT_FAILURE);
-        }*/
-    // 构建依赖图
     Graph graph;
     init_graph(&graph);
     for (int i = 0; i < rule_count; i++) {
@@ -208,30 +176,7 @@ int verbose_code=0;
                 break;
             }
         }}
-       /* // 7. 检查是否需要构建
-        int need_rebuild = 0;
-        if (!file_exists(target_rule->target)) {
-            need_rebuild = 1;
-        } else {
-            time_t target_time = get_mtime(target_rule->target);
-            for (int i = 0; i < target_rule->dep_count; i++) {
-                const char *dep = target_rule->dependencies[i];
-                if (get_mtime(dep) > target_time) {
-                    need_rebuild = 1;
-                    break;
-                }
-            }
-        }
-    
-        // 8. 执行构建命令
-        if (need_rebuild) {
-            printf("正在构建目标: %s\n", target_rule->target);
-            execute_command(target_rule->command);
-        } else {
-            printf("目标 '%s' 已是最新，无需构建\n", target_rule->target);
-        }
-    */
-    // 释放资源
+       
     free(order);
 
     return 0;
