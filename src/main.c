@@ -3,6 +3,7 @@
 #include "syntax_check.h"
 #include "parser.h"
 #include  "graph.h"
+#include "time_check.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,18 +44,6 @@ int verbose_code=0;
     fclose(file);
     return rules;
 }*/
-    // 检查文件是否存在
-    int file_exists(const char *filename) {
-        struct stat st;
-        return (stat(filename, &st) == 0);
-    }
-    
-    // 获取文件修改时间
-    time_t get_mtime(const char *filename) {
-        struct stat st;
-        stat(filename, &st);
-        return st.st_mtime;
-    }
     
     // 执行构建命令
     void execute_command(const char *command) {
@@ -140,23 +129,32 @@ int verbose_code=0;
             add_edge(&graph, rules[i].target, rules[i].dependencies[j]);
         }
     }
-    // 拓扑排序
+    // 8.拓扑排序
     char **order = malloc(sizeof(char *) * graph.count);
     bool success = topological_sort(&graph, order);
     if (!success) {
         printf("错误: 检测到循环依赖！\n");
         return 1;
     }
-     // 执行编译命令
-     for (int i = 0; i < graph.count; i++) {
-        const char* target = order[i];
+
+    // 9. 执行编译命令（添加时间戳检查）
+    for (int i = 0; i < graph.count; i++) {
+        const char* current_target = order[i];
         for (int j = 0; j < rule_count; j++) {
-            if (strcmp(rules[j].target, target) == 0) {
-                printf("执行命令: %s\n", rules[j].command);
-                system(rules[j].command);  // 执行编译命令
+            if (strcmp(rules[j].target, current_target) == 0) {
+                // 检查是否需要重新构建
+                if (needs_rebuild(rules[j].target, (const char**)rules[j].dependencies, rules[j].dep_count)) {
+                    printf("目标 '%s' 需要重新构建\n", rules[j].target);
+                    printf("执行命令: %s\n", rules[j].command);
+                    system(rules[j].command);  // 执行编译命令
+                } else {
+                    printf("目标 '%s' 是最新的，无需重新构建\n", rules[j].target);
+                }
                 break;
             }
-        }}
+        }
+    }
+
        
     free(order);
 
