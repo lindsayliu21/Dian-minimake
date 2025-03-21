@@ -83,14 +83,8 @@ int verbose_code=0;
      for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--verbose") == 0) {
             verbose_code = 1;
-        } else if (strcmp(argv[i], "-f") == 0) {  // 支持 -f 指定 Makefile 路径
-            if (i + 1 < argc) {
-                makefile_path = argv[++i];
-            } else {
-                fprintf(stderr, "错误: -f 需要指定 Makefile 路径\n");
-                exit(1);
-            }
-        } else if (argv[i][0] != '-') {
+        }
+        else if (argv[i][0] != '-') {
             target = argv[i];
         } else {
             fprintf(stderr, "错误: 未知选项 '%s'\n", argv[i]);
@@ -99,19 +93,6 @@ int verbose_code=0;
     }
     if (!target) {
         fprintf(stderr, "错误: 未指定构建目标\n");
-        exit(1);
-    }
-    //  步骤 2: 切换到 Makefile 所在目录 
-    char makefile_dir[256];
-    strncpy(makefile_dir, makefile_path, sizeof(makefile_dir));
-    makefile_dir[sizeof(makefile_dir) - 1] = '\0';  // 防止溢出
-
-    // 提取目录路径（例如将 "test/Makefile" 转为 "test"）
-    char *dir = dirname(makefile_dir);
-
-    // 切换工作目录
-    if (chdir(dir) != 0) {
-        perror("错误: 无法切换目录\n");
         exit(1);
     }
     

@@ -4,7 +4,7 @@
 
 
 //辅助函数: 去除首尾空白字符
-static void trim_whitespace(char *str){
+void trim_whitespace(char *str){
     char *end;
     //空字符串处理
     if(*str=='\0'){
@@ -19,7 +19,7 @@ static void trim_whitespace(char *str){
     *(end+1)='\0';
 }
 //辅助函数：去除注释和行尾空格
-static void remove_comments_and_trims(char *line){
+void remove_comments_and_trims(char *line){
     char *comment_start=strchr(line,'#');
     if(comment_start){
         *comment_start='\0';

@@ -2,7 +2,7 @@
 int in_rule = 0;
 
 void check_syntax(const char *line,int line_num){
-     if(in_rule&&line[0]=='\t'){
+    if(in_rule&&line[0]=='\t'){
         printf("Line%d: Command found before rule\n",line_num);
       exit(1);
     }else if(in_rule){
@@ -22,6 +22,5 @@ void check_syntax(const char *line,int line_num){
         printf("Line%d: Command must start with Tab\n",line_num);
         exit(1);
     }
-    in_rule=1;
-    }
+}
 }
