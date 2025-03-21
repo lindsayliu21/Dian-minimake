@@ -101,14 +101,14 @@ int verbose_code=0;
         char line[256];
         int line_num = 0;
         Rule rules[MAX_TARGETS];
-       
+       int in_rule=0;
         // 5. 逐行解析规则
         while (fgets(line, sizeof(line), cleaned_file)) {
             line_num++;
             line[strcspn(line, "\n")] = '\0'; // 去除换行符
     
             // 静态语法检查
-            check_syntax(line, line_num);
+            check_syntax(line, line_num,&in_rule);
     
             // 解析规则
             if (strchr(line, ':') != NULL) {

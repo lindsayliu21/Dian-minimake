@@ -7,5 +7,5 @@
  //全局状态：标记是否在规则规则中（目标行之后）
  
 //静态语法检查
-void check_syntax(const char *line,int line_num);
+void check_syntax(const char *line,int line_num,int *in_rule);
 #endif
